@@ -54,6 +54,7 @@
                 android:hint="Senha"/>
 
             <Button
+                android:onClick="realizarLogin"
                 android:textColor="#fff"
                 android:layout_marginTop="25dp"
                 android:background="@drawable/roundeshapebtn"
@@ -71,8 +72,8 @@
 
                 <ImageView
                     android:layout_weight="1"
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
                     android:src="@drawable/ic_facebook" />
 
                 <ImageView
