@@ -2,17 +2,23 @@ package com.example.hermivaldo.projetoinicial.fragments
 
 
 import android.os.Bundle
+import android.support.design.widget.CollapsingToolbarLayout
 import android.support.v4.app.Fragment
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 import com.example.hermivaldo.projetoinicial.R
+import com.example.hermivaldo.projetoinicial.`interface`.OnClickListener
+import com.example.hermivaldo.projetoinicial.adapter.LineBookAdap
+import com.example.hermivaldo.projetoinicial.entity.Book
+import java.util.*
+import kotlin.collections.ArrayList
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
@@ -20,10 +26,57 @@ private const val ARG_PARAM2 = "param2"
  */
 class ListFragment : Fragment() {
 
+    lateinit var recycle: RecyclerView
+    lateinit var adapter: LineBookAdap
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_list, container, false)
+        recycle = view.findViewById(R.id.rvBookList)
+        this.setupRecicleView()
+        //var tollBar = view.findViewById<CollapsingToolbarLayout>(R.id.collapsingToolbarLayout)
+        //tollBar?.title = resources.getString(R.string.home_title).toUpperCase()
+
+        return view
+    }
+
+    fun setupRecicleView(){
+        recycle.layoutManager = LinearLayoutManager(context)
+        var book = Book("aslkdj","a torre negra",1,800,Date())
+        var book1 = Book("aslkdj","a coisa",1,800,Date())
+        var book2 = Book("aslkdj","ultimo turno",1,800,Date())
+        var book3 = Book("aslkdj","pequena abelha",1,800,Date())
+        var book11 = Book("aslkdj","a coisa",1,800,Date())
+        var book21 = Book("aslkdj","ultimo turno",1,800,Date())
+        var book31 = Book("aslkdj","pequena abelha",1,800,Date())
+        var book32 = Book("aslkdj","pequena abelha",1,800,Date())
+        var book33 = Book("aslkdj","pequena abelha",1,800,Date())
+        var book34 = Book("aslkdj","pequena abelha",1,800,Date())
+
+        var books = ArrayList<Book>()
+
+        books.add(book32)
+        books.add(book33)
+        books.add(book34)
+        books.add(book)
+        books.add(book1)
+        books.add(book2)
+        books.add(book3)
+        books.add(book11)
+        books.add(book21)
+        books.add(book31)
+
+        this.adapter = LineBookAdap(books, onClick)
+        recycle.adapter = adapter
+        recycle.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+    }
+
+    var onClick = object : OnClickListener {
+        override fun click(position: Int) {
+            val book = adapter.getItem(position)
+        }
+
     }
 
 
