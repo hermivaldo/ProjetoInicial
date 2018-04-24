@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import com.example.hermivaldo.projetoinicial.fragments.CadastroLivroFragment
 import com.example.hermivaldo.projetoinicial.fragments.ListFragment
 import kotlinx.android.synthetic.main.activity_painel.*
 import kotlinx.android.synthetic.main.fragment_list.*
@@ -18,9 +19,14 @@ class Painel : AppCompatActivity() {
             }
             R.id.navigation_dashboard -> {
                 //message.setText(R.string.title_dashboard)
+                changeFragment(CadastroLivroFragment())
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_notifications -> {
+                //message.setText(R.string.title_notifications)
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_configuracao -> {
                 //message.setText(R.string.title_notifications)
                 return@OnNavigationItemSelectedListener true
             }

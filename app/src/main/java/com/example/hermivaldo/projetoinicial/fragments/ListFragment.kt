@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 
 import com.example.hermivaldo.projetoinicial.R
 import com.example.hermivaldo.projetoinicial.`interface`.OnClickListener
@@ -31,12 +32,9 @@ class ListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_list, container, false)
         recycle = view.findViewById(R.id.rvBookList)
         this.setupRecicleView()
-        //var tollBar = view.findViewById<CollapsingToolbarLayout>(R.id.collapsingToolbarLayout)
-        //tollBar?.title = resources.getString(R.string.home_title).toUpperCase()
 
         return view
     }
@@ -75,6 +73,7 @@ class ListFragment : Fragment() {
     var onClick = object : OnClickListener {
         override fun click(position: Int) {
             val book = adapter.getItem(position)
+            Toast.makeText(context, book.name, Toast.LENGTH_LONG).show()
         }
 
     }
