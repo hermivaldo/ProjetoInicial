@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import com.example.hermivaldo.projetoinicial.fragments.CadastroLivroFragment
 import com.example.hermivaldo.projetoinicial.fragments.ListFragment
 import com.example.hermivaldo.projetoinicial.fragments.MapFragment
+import com.example.hermivaldo.projetoinicial.fragments.SettingsFragment
 import kotlinx.android.synthetic.main.activity_painel.*
 import kotlinx.android.synthetic.main.fragment_list.*
 
@@ -29,6 +30,7 @@ class Painel : AppCompatActivity() {
             }
             R.id.navigation_configuracao -> {
                 //message.setText(R.string.title_notifications)
+                changeFragment(SettingsFragment())
                 return@OnNavigationItemSelectedListener true
             }
         }

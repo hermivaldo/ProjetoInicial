@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="32dp"
+    tools:context=".fragments.SettingsFragment">
+
+    <android.support.v7.preference.PreferenceCategory
+
+        android:title="Login automático">
+
+        <!-- TODO: Update blank fragment layout -->
+        <android.support.v7.preference.DatePickerPreference
+            android:key="pref_date"
+            android:persistent="false"
+            android:summary="Select a date"
+            android:title="DatePickerPreference"
+           />
+
+        <android.support.v7.preference.CheckBoxPreference
+            android:title="Informar sobre livrarias próximas?" />
+
+    </android.support.v7.preference.PreferenceCategory>
+
+</android.support.v7.preference.PreferenceScreen>
