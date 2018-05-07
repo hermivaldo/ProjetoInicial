@@ -10,14 +10,6 @@
 
         android:title="Login automático">
 
-        <!-- TODO: Update blank fragment layout -->
-        <android.support.v7.preference.DatePickerPreference
-            android:key="pref_date"
-            android:persistent="false"
-            android:summary="Select a date"
-            android:title="DatePickerPreference"
-           />
-
         <android.support.v7.preference.CheckBoxPreference
             android:title="Informar sobre livrarias próximas?" />
 
