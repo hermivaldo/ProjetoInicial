@@ -1,24 +1,21 @@
 package com.example.hermivaldo.projetoinicial.adapter
 
+import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.example.hermivaldo.projetoinicial.R
-import com.example.hermivaldo.projetoinicial.`interface`.OnClickListener
 import com.example.hermivaldo.projetoinicial.entity.Book
+import kotlinx.android.synthetic.main.line_book.view.*
 
-class LineBookAdap(books: List<Book>, val onClick: OnClickListener): RecyclerView.Adapter<LineBookAdap.Line>() {
+class LineBookAdap(val books: List<Book>,
+                   val context: Context,
+                   val listener: (Book) -> Unit,
+                   val listenerDelete: (Book) -> Unit): RecyclerView.Adapter<LineBookAdap.LineViewHolder>() {
 
-    private var books: List<Book>
-
-    init {
-        this.books = books
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Line {
-        return Line(LayoutInflater.from(parent!!.context).inflate(R.layout.line_book,
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LineViewHolder {
+        return LineViewHolder(LayoutInflater.from(parent!!.context).inflate(R.layout.line_book,
                 parent, false))
     }
 
@@ -30,21 +27,25 @@ class LineBookAdap(books: List<Book>, val onClick: OnClickListener): RecyclerVie
         return this.books[position]
     }
 
-    override fun onBindViewHolder(holder: Line, position: Int) {
+    override fun onBindViewHolder(holder: LineViewHolder, position: Int) {
         val book = this.books.get(position)
-        holder!!.descrition.text = book.name
+        holder.let {
+            holder.bindView(book, listener, listenerDelete)
+        }
 
-        holder!!.itemView.setOnClickListener({
-            onClick.click(position)
-        })
     }
 
-    class Line : RecyclerView.ViewHolder{
+    class LineViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 
-        lateinit var descrition: TextView
+        fun bindView(book: Book,
+                     listener: (Book) -> Unit,
+                     listenerDelete: (Book) -> Unit) = with(itemView){
+            textLineDescription.text = book.name
 
-        constructor(itemView: View?) : super(itemView) {
-            this.descrition = itemView!!.findViewById(R.id.textLineDescription)
+            delete.setOnClickListener{
+                listenerDelete(book)
+            }
+            setOnClickListener{listener(book)}
         }
 
     }

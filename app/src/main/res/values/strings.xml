@@ -10,4 +10,12 @@
 
     <string name="home_title">NOVIDADES</string>
     <string name="title_activity_maps">Map</string>
+
+    <string name="categorie_prompt">Escolha uma categoria</string>
+
+    <string-array name="categorie_array">
+        <item>Lendo</item>
+        <item>Leitura Finalizada</item>
+        <item>Quero ler</item>
+    </string-array>
 </resources>

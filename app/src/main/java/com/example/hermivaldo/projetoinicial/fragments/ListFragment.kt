@@ -2,7 +2,6 @@ package com.example.hermivaldo.projetoinicial.fragments
 
 
 import android.os.Bundle
-import android.support.design.widget.CollapsingToolbarLayout
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -21,10 +20,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-/**
- * A simple [Fragment] subclass.
- *
- */
 class ListFragment : Fragment() {
 
     lateinit var recycle: RecyclerView
@@ -65,7 +60,7 @@ class ListFragment : Fragment() {
         books.add(book21)
         books.add(book31)
 
-        this.adapter = LineBookAdap(books, onClick)
+        //this.adapter = LineBookAdap(books, onClick)
         recycle.adapter = adapter
         recycle.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
     }
