@@ -35,13 +35,18 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
     private val REQUEST_GPS: Int = 0
 
     override fun onConnected(p0: Bundle?) {
-        checkPermission()
+        try {
+            checkPermission()
 
-        val minhaLocalizacao = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiCliente)
-        if (minhaLocalizacao != null) {
-            adicionarMarcador(minhaLocalizacao.latitude, minhaLocalizacao.longitude, "Não sou Shakira, mas estou aqui")
+            val minhaLocalizacao = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiCliente)
+            if (minhaLocalizacao != null) {
+                adicionarMarcador(minhaLocalizacao.latitude, minhaLocalizacao.longitude, "Não sou Shakira, mas estou aqui")
 
+            }
+        }catch (e: Exception) {
+            e.printStackTrace()
         }
+
     }
 
     fun adicionarMarcador(latitude: Double, longitude: Double, descrition: String){
@@ -101,8 +106,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        try {
+            callConnection()
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
 
-        callConnection()
     }
 
 
@@ -117,30 +126,35 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
 
 
     private fun checkPermission() {
-        val permission = ContextCompat.checkSelfPermission(context!!, Manifest.permission.ACCESS_FINE_LOCATION)
+        try {
+            val permission = ContextCompat.checkSelfPermission(context!!, Manifest.permission.ACCESS_FINE_LOCATION)
 
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            Log.i("", "Permissão para gravar negada")
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                Log.i("", "Permissão para gravar negada")
 
-            if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
-                            Manifest.permission.ACCESS_FINE_LOCATION)) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
+                                Manifest.permission.ACCESS_FINE_LOCATION)) {
 
-                val builder = AlertDialog.Builder(context!!)
+                    val builder = AlertDialog.Builder(context!!)
 
-                builder.setMessage("Necessária a permissao para GPS")
-                        .setTitle("Permissao Requerida")
+                    builder.setMessage("Necessária a permissao para GPS")
+                            .setTitle("Permissao Requerida")
 
-                builder.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, id ->
+                    builder.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, id ->
+                        requestPermission()
+                    })
+
+                    val dialog = builder.create()
+                    dialog.show()
+
+                } else {
                     requestPermission()
-                })
-
-                val dialog = builder.create()
-                dialog.show()
-
-            } else {
-                requestPermission()
+                }
             }
+        }catch (e: Exception) {
+            e.printStackTrace()
         }
+
     }
 
 

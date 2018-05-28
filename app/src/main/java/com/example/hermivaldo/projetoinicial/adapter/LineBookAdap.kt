@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.hermivaldo.projetoinicial.R
 import com.example.hermivaldo.projetoinicial.entity.Book
+import com.example.hermivaldo.projetoinicial.util.ImageConversor
 import kotlinx.android.synthetic.main.line_book.view.*
 
 class LineBookAdap(val books: List<Book>,
@@ -41,7 +42,8 @@ class LineBookAdap(val books: List<Book>,
                      listener: (Book) -> Unit,
                      listenerDelete: (Book) -> Unit) = with(itemView){
             textLineDescription.text = book.name
-
+            ivFoto.setImageBitmap(ImageConversor().convert(book.image))
+            tituloLivro.text = book.editora
             delete.setOnClickListener{
                 listenerDelete(book)
             }
