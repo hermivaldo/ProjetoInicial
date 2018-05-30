@@ -16,7 +16,6 @@ import com.example.hermivaldo.projetoinicial.R
 import com.example.hermivaldo.projetoinicial.adapter.LineBookAdap
 import com.example.hermivaldo.projetoinicial.entity.Book
 import com.example.hermivaldo.projetoinicial.services.BookUtil
-import com.example.hermivaldo.projetoinicial.util.DbWorkThread
 
 
 class ListFragment : Fragment() {
@@ -24,32 +23,31 @@ class ListFragment : Fragment() {
     lateinit var recycle: RecyclerView
     lateinit var adapter: LineBookAdap
     lateinit var bookUtil: BookUtil
-    var mThread = DbWorkThread("dbWorkerThread")
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_list, container, false)
         recycle = view.findViewById(R.id.rvBookList)
-        mThread.start()
-        bookUtil = BookUtil(context!!, mThread)
         this.setupRecicleView()
-
         return view
     }
 
-    fun setupRecicleView(){
-        recycle.layoutManager = LinearLayoutManager(context)
-        bookUtil.getAllBooks {
-            this.adapter = LineBookAdap(it!!, context!!, {showDetail(it)}, {deleteLine(it)})
-            recycle.adapter = adapter
-            recycle.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        }
-
+    fun loadThread(bookUtil: BookUtil){
+        this.bookUtil = bookUtil
     }
 
-    override fun onDestroy() {
-        mThread.quit()
-        super.onDestroy()
+    private fun setupRecicleView(){
+
+        recycle.layoutManager = LinearLayoutManager(context)
+        bookUtil.getAllBooks {
+            if (it != null && context != null){
+                this.adapter = LineBookAdap(it!!, context!!, {showDetail(it)}, {deleteLine(it)})
+                recycle.adapter = adapter
+                recycle.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+            }
+
+        }
+
     }
 
     fun showDetail(book: Book){

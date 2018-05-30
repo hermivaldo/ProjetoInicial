@@ -37,12 +37,12 @@ class LineBookAdap(val books: List<Book>,
     }
 
     class LineViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-
+        var conversor = ImageConversor()
         fun bindView(book: Book,
                      listener: (Book) -> Unit,
                      listenerDelete: (Book) -> Unit) = with(itemView){
             textLineDescription.text = book.name
-            ivFoto.setImageBitmap(ImageConversor().convert(book.image))
+            conversor.setPic(ivFoto, book.image)
             tituloLivro.text = book.editora
             delete.setOnClickListener{
                 listenerDelete(book)

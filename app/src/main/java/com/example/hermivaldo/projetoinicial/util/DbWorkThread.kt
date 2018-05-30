@@ -15,7 +15,9 @@ class DbWorkThread(thread: String) : HandlerThread(thread) {
     }
 
     fun postTask(task: Runnable){
-
+        if ( mWorkHanlder !is Handler){
+            this.mWorkHanlder = Handler(looper)
+        }
         this.mWorkHanlder.post(task)
     }
 

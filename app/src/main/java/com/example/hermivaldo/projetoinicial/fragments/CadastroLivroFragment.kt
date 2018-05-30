@@ -14,22 +14,22 @@ import android.widget.Spinner
 import com.example.hermivaldo.projetoinicial.R
 import com.example.hermivaldo.projetoinicial.entity.Book
 import com.example.hermivaldo.projetoinicial.services.BookUtil
-import com.example.hermivaldo.projetoinicial.util.DbWorkThread
 import android.provider.MediaStore
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.support.design.widget.FloatingActionButton
+import android.support.v4.content.FileProvider
 import android.widget.ImageView
 import com.example.hermivaldo.projetoinicial.util.ImageConversor
+import java.io.File
 
 
 class CadastroLivroFragment : Fragment() {
 
     lateinit var bookUtil: BookUtil
-    var mThread = DbWorkThread("dbWorkerThread")
-    val REQUEST_IMAGE_CAPTURE = 1
-    var imageBitmap: Bitmap? = null
+    val REQUEST_TAKE_PHOTO = 1
+    var photoFile: File? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -40,16 +40,19 @@ class CadastroLivroFragment : Fragment() {
         buttonFloat.setOnClickListener {
             this.dispatchTakePictureIntent()
         }
-        bookUtil = BookUtil(context!!, mThread)
         button.setOnClickListener({
             this.cadastro(it)
         })
-
-        mThread.start()
         return view
     }
 
+    fun loadThread(bookUtil: BookUtil){
+        this.bookUtil = bookUtil
+    }
+
+
     private fun getBook() : Book{
+
         var book = Book()
         book.name = getStringForView(R.id.nomeLivro)
         book.size = Integer.parseInt(getStringForView(R.id.totalPaginasLivro))
@@ -57,11 +60,11 @@ class CadastroLivroFragment : Fragment() {
         book.year = getStringForView(R.id.anoLivro)
         book.editora = getStringForView(R.id.editoraLivro)
 
-        if (imageBitmap == null){
+        if (photoFile == null){
             book.image = ImageConversor().convert((view?.findViewById<ImageView>
             (R.id.imageBackground)?.drawable as BitmapDrawable).bitmap )
         }else {
-            book.image = ImageConversor().convert(imageBitmap!!)
+            book.image = photoFile!!.absolutePath
 
         }
         return book
@@ -76,23 +79,29 @@ class CadastroLivroFragment : Fragment() {
     }
 
     private fun dispatchTakePictureIntent() {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        if (takePictureIntent.resolveActivity(activity!!.getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+        var takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(context!!.packageManager) != null) {
+            // Create the File where the photo should go
+            photoFile = ImageConversor().createImageFile(context!!);
+
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                var photoURI = FileProvider.getUriForFile(context!!,
+                "com.example.hermivaldo.projetoinicial",
+                photoFile!!);
+
+
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mThread.quit()
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-            val extras = data!!.extras
-            imageBitmap = extras!!.get("data") as Bitmap
-
-            view?.findViewById<ImageView>(R.id.imageBackground)?.setImageBitmap(imageBitmap)
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            ImageConversor().setPic(view?.findViewById<ImageView>(R.id.imageBackground)!!,
+                    photoFile!!.absolutePath )
         }
     }
 
