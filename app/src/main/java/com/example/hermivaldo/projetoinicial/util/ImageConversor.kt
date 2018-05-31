@@ -1,39 +1,14 @@
 package com.example.hermivaldo.projetoinicial.util
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.icu.text.SimpleDateFormat
 import android.os.Environment
-import android.util.Base64;
-import java.io.ByteArrayOutputStream;
-import android.os.Environment.DIRECTORY_PICTURES
 import java.io.File
 import java.io.IOException
-import java.util.*
-import android.opengl.ETC1.getHeight
-import android.opengl.ETC1.getWidth
 import android.widget.ImageView
 
 
 class ImageConversor {
-
-    @Throws(IllegalArgumentException::class)
-    fun convert(base64Str: String): Bitmap {
-        val decodedBytes = Base64.decode(
-                base64Str.substring(base64Str.indexOf(",") + 1),
-                Base64.URL_SAFE
-        )
-
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
-    }
-
-    fun convert(bitmap: Bitmap): String {
-        val outputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-
-        return Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT)
-    }
 
     @Throws(IOException::class)
     fun createImageFile(context: Context): File {
@@ -46,17 +21,22 @@ class ImageConversor {
                 storageDir      /* directory */
         )
 
-        // Save a file: path for use with ACTION_VIEW intents
-        //mCurrentPhotoPath = image.getAbsolutePath()
         return image
     }
 
     fun setPic(mImageView: ImageView, mCurrentPhotoPath: String) {
-        // Get the dimensions of the View
-        val targetW = 72
-        val targetH = 72
+        // tamanho fixo pois quando vem uma imageView dentro de um list, mesmo com tamanho fixo
+        // está chegando zerada para o objeto fazendo uma divisão por 0 e dndo erro
+        var targetW = 72
+        var targetH = 72
 
-        // Get the dimensions of the bitmap
+        if (mImageView.width != 0){
+            targetW = mImageView.width
+        }
+
+        if (mImageView.height != 0){
+            targetH = mImageView.height
+        }
         val bmOptions = BitmapFactory.Options()
         bmOptions.inJustDecodeBounds = true
         BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions)

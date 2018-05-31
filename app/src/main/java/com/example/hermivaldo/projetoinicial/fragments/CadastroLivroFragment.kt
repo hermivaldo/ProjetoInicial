@@ -7,9 +7,6 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Spinner
 
 import com.example.hermivaldo.projetoinicial.R
 import com.example.hermivaldo.projetoinicial.entity.Book
@@ -19,13 +16,19 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.support.design.widget.FloatingActionButton
+import android.support.design.widget.TextInputLayout
 import android.support.v4.content.FileProvider
-import android.widget.ImageView
+import android.widget.*
+import com.example.hermivaldo.projetoinicial.rules.NotNull
 import com.example.hermivaldo.projetoinicial.util.ImageConversor
+import io.reactivex.Observable
+import ru.whalemare.rxvalidator.RxCombineValidator
+import ru.whalemare.rxvalidator.RxValidator
+import ru.whalemare.rxvalidator.ValidateRule
 import java.io.File
 
 
-class CadastroLivroFragment : Fragment() {
+class CadastroLivroFragment : Fragment(){
 
     lateinit var bookUtil: BookUtil
     val REQUEST_TAKE_PHOTO = 1
@@ -43,6 +46,7 @@ class CadastroLivroFragment : Fragment() {
         button.setOnClickListener({
             this.cadastro(it)
         })
+        validateForm(view)
         return view
     }
 
@@ -60,13 +64,7 @@ class CadastroLivroFragment : Fragment() {
         book.year = getStringForView(R.id.anoLivro)
         book.editora = getStringForView(R.id.editoraLivro)
 
-        if (photoFile == null){
-            book.image = ImageConversor().convert((view?.findViewById<ImageView>
-            (R.id.imageBackground)?.drawable as BitmapDrawable).bitmap )
-        }else {
-            book.image = photoFile!!.absolutePath
-
-        }
+        book.image = photoFile!!.absolutePath
         return book
     }
 
@@ -74,8 +72,21 @@ class CadastroLivroFragment : Fragment() {
         return view?.findViewById<EditText>(ref)?.text.toString()
     }
 
+    private fun validateForm(view: View){
+        var inputName = view?.findViewById<TextInputLayout>(R.id.nomeLivro)!!
+        var nomeBook: Observable<Boolean> = RxValidator(inputName).apply {
+            add(NotNull())
+        }.asObservable()
+
+        RxCombineValidator(nomeBook).asObservable().distinctUntilChanged().subscribe { valid ->
+            Toast.makeText(context!!, "", Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
     private fun cadastro(view: View){
-        bookUtil.insertBook(getBook())
+        //bookUtil.insertBook(getBook())
+        //validateForm()
     }
 
     private fun dispatchTakePictureIntent() {

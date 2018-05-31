@@ -3,6 +3,7 @@ package com.example.hermivaldo.projetoinicial.fragments
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -16,6 +17,7 @@ import com.example.hermivaldo.projetoinicial.R
 import com.example.hermivaldo.projetoinicial.adapter.LineBookAdap
 import com.example.hermivaldo.projetoinicial.entity.Book
 import com.example.hermivaldo.projetoinicial.services.BookUtil
+import com.example.hermivaldo.projetoinicial.util.CAlertDialog
 
 
 class ListFragment : Fragment() {
@@ -23,7 +25,7 @@ class ListFragment : Fragment() {
     lateinit var recycle: RecyclerView
     lateinit var adapter: LineBookAdap
     lateinit var bookUtil: BookUtil
-
+    val alert = CAlertDialog()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_list, container, false)
@@ -45,9 +47,7 @@ class ListFragment : Fragment() {
                 recycle.adapter = adapter
                 recycle.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             }
-
         }
-
     }
 
     fun showDetail(book: Book){
@@ -55,7 +55,23 @@ class ListFragment : Fragment() {
     }
 
     fun deleteLine(book: Book){
-        Toast.makeText(context, "Estou no delete ", Toast.LENGTH_SHORT).show()
+        val alertDialog = AlertDialog.Builder(context!!)
+        alertDialog.setTitle("Alerta") // O Titulo da notificação
+        alertDialog.setMessage("Pretende encerrar a Aplicação ?") // a mensagem ou alerta
+
+        alertDialog.setPositiveButton("Sim", { _, _ ->
+
+            //Aqui sera executado a instrução a sua escolha
+            Toast.makeText(context!!, "Sim", Toast.LENGTH_LONG).show()
+
+        })
+
+        alertDialog.setNegativeButton("Não", { _, _ ->
+            //Aqui sera executado a instrução a sua escolha
+            Toast.makeText(context!!, "Não", Toast.LENGTH_LONG).show()
+
+        })
+        alertDialog.show()
     }
 
 }
