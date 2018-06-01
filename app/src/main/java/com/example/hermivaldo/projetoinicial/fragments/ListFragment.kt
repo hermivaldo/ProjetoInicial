@@ -17,7 +17,6 @@ import com.example.hermivaldo.projetoinicial.R
 import com.example.hermivaldo.projetoinicial.adapter.LineBookAdap
 import com.example.hermivaldo.projetoinicial.entity.Book
 import com.example.hermivaldo.projetoinicial.services.BookUtil
-import com.example.hermivaldo.projetoinicial.util.CAlertDialog
 
 
 class ListFragment : Fragment() {
@@ -25,7 +24,6 @@ class ListFragment : Fragment() {
     lateinit var recycle: RecyclerView
     lateinit var adapter: LineBookAdap
     lateinit var bookUtil: BookUtil
-    val alert = CAlertDialog()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_list, container, false)
@@ -57,18 +55,16 @@ class ListFragment : Fragment() {
     fun deleteLine(book: Book){
         val alertDialog = AlertDialog.Builder(context!!)
         alertDialog.setTitle("Alerta") // O Titulo da notificação
-        alertDialog.setMessage("Pretende encerrar a Aplicação ?") // a mensagem ou alerta
+        alertDialog.setMessage("Pretende delete esse livro ?") // a mensagem ou alerta
 
         alertDialog.setPositiveButton("Sim", { _, _ ->
-
-            //Aqui sera executado a instrução a sua escolha
-            Toast.makeText(context!!, "Sim", Toast.LENGTH_LONG).show()
-
+            bookUtil.deleteData(book)
+            this.setupRecicleView()
         })
 
         alertDialog.setNegativeButton("Não", { _, _ ->
-            //Aqui sera executado a instrução a sua escolha
-            Toast.makeText(context!!, "Não", Toast.LENGTH_LONG).show()
+            //cancelar não precisa de uma ação porem preciso definir um conteúdo para o mesmo
+            //Toast.makeText(context!!, "Não", Toast.LENGTH_LONG).show()
 
         })
         alertDialog.show()

@@ -17,6 +17,17 @@ class BookUtil(val context: Context, val dbWorkThread: DbWorkThread?) {
 
         }
         dbWorkThread?.postTask(task)
+
+
+    }
+
+    fun deleteData(book: Book){
+
+        val task = Runnable {
+            dataBook?.BookDAO()?.delete(book)
+        }
+
+        dbWorkThread?.postTask(task)
     }
 
     fun getAllBooks(getListBook: (List<Book>?) -> Unit){

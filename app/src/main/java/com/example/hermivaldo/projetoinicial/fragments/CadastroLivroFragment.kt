@@ -13,18 +13,16 @@ import com.example.hermivaldo.projetoinicial.entity.Book
 import com.example.hermivaldo.projetoinicial.services.BookUtil
 import android.provider.MediaStore
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.TextInputLayout
 import android.support.v4.content.FileProvider
+import android.util.Log
 import android.widget.*
-import com.example.hermivaldo.projetoinicial.rules.NotNull
+import com.example.hermivaldo.projetoinicial.rules.Rules
 import com.example.hermivaldo.projetoinicial.util.ImageConversor
 import io.reactivex.Observable
 import ru.whalemare.rxvalidator.RxCombineValidator
 import ru.whalemare.rxvalidator.RxValidator
-import ru.whalemare.rxvalidator.ValidateRule
 import java.io.File
 
 
@@ -74,12 +72,14 @@ class CadastroLivroFragment : Fragment(){
 
     private fun validateForm(view: View){
         var inputName = view?.findViewById<TextInputLayout>(R.id.nomeLivro)!!
+        //var
+
         var nomeBook: Observable<Boolean> = RxValidator(inputName).apply {
-            add(NotNull())
+            add(Rules.NotNUll())
         }.asObservable()
 
         RxCombineValidator(nomeBook).asObservable().distinctUntilChanged().subscribe { valid ->
-            Toast.makeText(context!!, "", Toast.LENGTH_SHORT).show()
+            Log.e("edittext",inputName.editText?.text.toString())
         }
 
     }
