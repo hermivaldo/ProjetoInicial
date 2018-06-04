@@ -63,25 +63,28 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:id="@+id/nomeLivro"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Nome do livro"/>
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:id="@+id/editoraLivro"
+                    android:hint="Nome do livro"
                     android:layout_height="wrap_content">
 
                     <EditText
                         android:singleLine="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Editora" />
+                        />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/editoraLivro"
+                    android:hint="Editora"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:singleLine="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                         />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -89,13 +92,14 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:id="@+id/anoLivro"
+                    android:hint="Ano"
                     android:layout_height="wrap_content">
 
                     <EditText
                         android:inputType="datetime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Ano" />
+                         />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -104,12 +108,13 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:id="@+id/totalPaginasLivro"
+                    android:hint="Total de páginas"
                     android:layout_height="wrap_content">
 
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Total de páginas"
+
                         android:inputType="numberDecimal" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -123,6 +128,8 @@
                     android:theme="?attr/spinnerDropDownItemStyle" />
 
                 <Button
+                    android:enabled="false"
+                    android:clickable="true"
                     android:id="@+id/btnCadastroLivro"
                     android:layout_marginTop="16dp"
                     android:layout_width="match_parent"

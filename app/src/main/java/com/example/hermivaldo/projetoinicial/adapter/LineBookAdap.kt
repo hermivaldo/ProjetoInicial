@@ -24,10 +24,6 @@ class LineBookAdap(val books: List<Book>,
         return this.books.size
     }
 
-    fun getItem(position: Int) : Book{
-        return this.books[position]
-    }
-
     override fun onBindViewHolder(holder: LineViewHolder, position: Int) {
         val book = this.books.get(position)
         holder.let {
@@ -41,12 +37,19 @@ class LineBookAdap(val books: List<Book>,
         fun bindView(book: Book,
                      listener: (Book) -> Unit,
                      listenerDelete: (Book) -> Unit) = with(itemView){
-            textLineDescription.text = book.name
-            conversor.setPic(ivFoto, book.image)
-            tituloLivro.text = book.editora
+            textLineDescription.text = book.editora
+            // caso imagem vazia carregar uma imagem default do sistema
+            if (book.image == ""){
+                conversor.loadImageFromResource(ivFoto, context, null)
+            }else{
+                conversor.setPic(ivFoto, book.image)
+            }
+            tituloLivro.text = book.name
+            // adicionar o evento de delete do book
             delete.setOnClickListener{
                 listenerDelete(book)
             }
+            // adicionar evento de detalhe do livro
             setOnClickListener{listener(book)}
         }
 

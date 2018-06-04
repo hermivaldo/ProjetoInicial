@@ -48,8 +48,20 @@ class ListFragment : Fragment() {
         }
     }
 
+
+    private fun changeFragment(book: Book){
+        val transaction = fragmentManager?.beginTransaction()
+        var detailFragment = DetailFragment()
+        var bundle = Bundle()
+        detailFragment.loadThread(bookUtil)
+        bundle.putParcelable("book", book)
+        detailFragment.arguments = bundle
+        transaction?.replace(R.id.mainFragm, detailFragment)
+        transaction?.commit()
+    }
+
     fun showDetail(book: Book){
-        Toast.makeText(context, book.name, Toast.LENGTH_LONG).show()
+        changeFragment(book)
     }
 
     fun deleteLine(book: Book){
@@ -64,8 +76,6 @@ class ListFragment : Fragment() {
 
         alertDialog.setNegativeButton("Não", { _, _ ->
             //cancelar não precisa de uma ação porem preciso definir um conteúdo para o mesmo
-            //Toast.makeText(context!!, "Não", Toast.LENGTH_LONG).show()
-
         })
         alertDialog.show()
     }

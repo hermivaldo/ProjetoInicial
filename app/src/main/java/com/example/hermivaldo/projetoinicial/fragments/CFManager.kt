@@ -19,7 +19,7 @@ open class CFManager : AppCompatActivity() {
 
     protected fun inicializaFragments(){
         this.listFragment.loadThread(bookUtil)
-        this.cadastroLivroFragment.loadThread(bookUtil)
+        this.cadastroLivroFragment.loadThread(bookUtil, this.listFragment)
 
     }
 

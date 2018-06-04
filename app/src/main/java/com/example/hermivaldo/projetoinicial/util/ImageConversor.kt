@@ -1,11 +1,14 @@
 package com.example.hermivaldo.projetoinicial.util
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.BitmapFactory.decodeResource
 import android.os.Environment
 import java.io.File
 import java.io.IOException
 import android.widget.ImageView
+import com.example.hermivaldo.projetoinicial.R
 
 
 class ImageConversor {
@@ -22,6 +25,18 @@ class ImageConversor {
         )
 
         return image
+    }
+
+    fun loadImageFromResource(mImageView: ImageView, context: Context,resource: Int?){
+        var bitmap: Bitmap?
+
+        if (resource == null){
+            bitmap = decodeResource(context.resources, R.drawable.reading)
+        }else {
+            bitmap = decodeResource(context.resources, resource!!)
+        }
+
+        mImageView.setImageBitmap(bitmap)
     }
 
     fun setPic(mImageView: ImageView, mCurrentPhotoPath: String) {

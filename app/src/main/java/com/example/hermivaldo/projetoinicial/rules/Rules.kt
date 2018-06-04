@@ -23,7 +23,7 @@ class Rules {
         }
 
         override fun validate(data: String?): Boolean {
-            return data!!.length > size
+            return data!!.length >= size
         }
     }
 }

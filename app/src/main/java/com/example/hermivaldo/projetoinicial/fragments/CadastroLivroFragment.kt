@@ -21,6 +21,7 @@ import android.widget.*
 import com.example.hermivaldo.projetoinicial.rules.Rules
 import com.example.hermivaldo.projetoinicial.util.ImageConversor
 import io.reactivex.Observable
+import org.w3c.dom.Text
 import ru.whalemare.rxvalidator.RxCombineValidator
 import ru.whalemare.rxvalidator.RxValidator
 import java.io.File
@@ -31,64 +32,163 @@ class CadastroLivroFragment : Fragment(){
     lateinit var bookUtil: BookUtil
     val REQUEST_TAKE_PHOTO = 1
     var photoFile: File? = null
+    var changeFor:ListFragment? = null
+    var mybook: Book? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
+        // carregamento dos conteúdos da view.
         val view = inflater.inflate(R.layout.fragment_cadastro_livro, container, false)
         val button = view.findViewById<Button>(R.id.btnCadastroLivro)
         val buttonFloat = view.findViewById<FloatingActionButton>(R.id.btnFloat)
+
+
+        // pegar argumento da página
+        if (this.arguments != null){
+            this.mybook = this.arguments?.getParcelable<Book>("book")
+            loadContentForBundle(view)
+        }
+
+
+
+        // atribuição dos evento de captura de foto
         buttonFloat.setOnClickListener {
             this.dispatchTakePictureIntent()
         }
+
+        // atribuição do evento do botão de cadastro
         button.setOnClickListener({
             this.cadastro(it)
         })
+
+        // inserir eventos de validação do formulário.
         validateForm(view)
         return view
     }
 
-    fun loadThread(bookUtil: BookUtil){
+    // método responsável por carregar a thread e o fragment de retorno
+    fun loadThread(bookUtil: BookUtil, fragment: ListFragment){
         this.bookUtil = bookUtil
+        this.changeFor = fragment
+
     }
 
+    private fun loadContentForBundle(view: View){
 
+        var nomeBook = view?.findViewById<TextInputLayout>(R.id.nomeLivro)?.editText
+        nomeBook?.setText(this.mybook?.name)
+
+        var sizeBook = view?.findViewById<TextInputLayout>(R.id.totalPaginasLivro).editText
+        sizeBook?.setText(this.mybook?.size.toString())
+
+        var typeBook = view?.findViewById<Spinner>(R.id.categorias)
+        typeBook.setSelection(this.mybook?.type!!)
+
+        var yearBook = view?.findViewById<TextInputLayout>(R.id.anoLivro).editText
+        yearBook?.setText(this.mybook?.year)
+
+        var editoraBook = view?.findViewById<TextInputLayout>(R.id.editoraLivro).editText
+        editoraBook?.setText(this.mybook?.editora)
+
+        if (this.mybook?.image != ""){
+            var imageViewBook = view?.findViewById<ImageView>(R.id.imageBackground)
+            ImageConversor().setPic(imageViewBook, this.mybook?.image!!)
+        }
+
+        val button = view.findViewById<Button>(R.id.btnCadastroLivro)
+        button.setText("Editar")
+
+        // como já está valido o formulário pois foi inserido da maneira correta da primeira vez, já
+        // preciso deixar o botão ativo, pois caso contrário apenas quando a regra for invalidada e
+        // revalidada que o botão torna a ficar ativo
+        button.isEnabled = true
+
+    }
+
+    // método para pegar o conteúdo para inserir no banco de dados
     private fun getBook() : Book{
 
         var book = Book()
+
+        if (this.mybook != null){
+            book._id = mybook!!._id
+        }
+
         book.name = getStringForView(R.id.nomeLivro)
         book.size = Integer.parseInt(getStringForView(R.id.totalPaginasLivro))
         book.type = view?.findViewById<Spinner>(R.id.categorias)?.selectedItemPosition!!
         book.year = getStringForView(R.id.anoLivro)
         book.editora = getStringForView(R.id.editoraLivro)
 
-        book.image = photoFile!!.absolutePath
+        if (photoFile == null){
+            book.image = ""
+        }else {
+            book.image = photoFile!!.absolutePath
+        }
+
         return book
     }
 
     private fun getStringForView(ref: Int): String{
-        return view?.findViewById<EditText>(ref)?.text.toString()
+        return view?.findViewById<TextInputLayout>(ref)?.editText?.text.toString()
     }
 
+    /**
+     * funcã utilizada para poder inserir as validações no campo e permitir apenas habilitar a opção
+     * apenas depois que todos os inputs estiverem OK
+     */
     private fun validateForm(view: View){
         var inputName = view?.findViewById<TextInputLayout>(R.id.nomeLivro)!!
-        //var
+        var inputEditora = view?.findViewById<TextInputLayout>(R.id.editoraLivro)!!
+        var inputAno = view?.findViewById<TextInputLayout>(R.id.anoLivro)!!
+        var inputTotal = view?.findViewById<TextInputLayout>(R.id.totalPaginasLivro)
 
-        var nomeBook: Observable<Boolean> = RxValidator(inputName).apply {
+        var inputNameObservale: Observable<Boolean> = RxValidator(inputName).apply {
             add(Rules.NotNUll())
         }.asObservable()
 
-        RxCombineValidator(nomeBook).asObservable().distinctUntilChanged().subscribe { valid ->
-            Log.e("edittext",inputName.editText?.text.toString())
+        var inputEditoraObservable : Observable<Boolean> = RxValidator(inputEditora).apply {
+            add(Rules.NotNUll())
+            add(Rules.MinLength(4))
+        }.asObservable()
+
+        var inputAnoObservable : Observable<Boolean> = RxValidator(inputAno).apply {
+            add(Rules.NotNUll())
+            add(Rules.MinLength(4))
+        }.asObservable()
+
+        var inputTotalObservable: Observable<Boolean> = RxValidator(inputTotal).apply {
+            add(Rules.NotNUll())
+            add(Rules.MinLength(2))
+        }.asObservable()
+
+        RxCombineValidator(inputNameObservale, inputEditoraObservable, inputAnoObservable,
+                inputTotalObservable).asObservable().
+                distinctUntilChanged().subscribe { valid ->
+            view.findViewById<Button>(R.id.btnCadastroLivro).isEnabled = valid
+        }
+
+    }
+
+    // mudar o fragment
+    private fun changeFragment(){
+        changeFor.let {
+            val transaction = fragmentManager?.beginTransaction()
+            //transaction?.hide(this) não pode utilizar hide, pois depois precisamos dar um show novamente
+            transaction?.replace(R.id.mainFragm, it)
+            transaction?.commit()
         }
 
     }
 
     private fun cadastro(view: View){
-        //bookUtil.insertBook(getBook())
-        //validateForm()
+        bookUtil.insertBook(getBook()) // usar um transformador para chamar o change apenas finalizado o insert book
+        changeFragment()
     }
 
+
+    // método utilizado para tirar foto para o usuário e salvar dentro de um diretório do próprio app
     private fun dispatchTakePictureIntent() {
         var takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
@@ -109,6 +209,7 @@ class CadastroLivroFragment : Fragment(){
         }
     }
 
+    // após a imagem ser capturada definir ela no meu ImaveView
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
             ImageConversor().setPic(view?.findViewById<ImageView>(R.id.imageBackground)!!,
