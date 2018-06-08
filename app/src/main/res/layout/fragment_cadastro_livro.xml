@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/capa"
+                android:src="@drawable/book"
                 app:layout_collapseMode="parallax" />
 
             <android.support.v7.widget.Toolbar
@@ -42,107 +42,107 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
+    <RelativeLayout
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.CardView
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:cardElevation="8dp"
-            app:cardUseCompatPadding="true">
-
-            <LinearLayout
+            android:layout_height="match_parent">
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:layout_centerHorizontal="true"
+                app:cardElevation="8dp"
+                app:cardUseCompatPadding="true">
 
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:id="@+id/nomeLivro"
-                    android:hint="Nome do livro"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:singleLine="true"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:id="@+id/editoraLivro"
-                    android:hint="Editora"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:singleLine="true"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                         />
-
-                </android.support.design.widget.TextInputLayout>
-
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:id="@+id/anoLivro"
-                    android:hint="Ano"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:inputType="datetime"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                         />
-
-                </android.support.design.widget.TextInputLayout>
-
-
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:id="@+id/totalPaginasLivro"
-                    android:hint="Total de páginas"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-
-                        android:inputType="numberDecimal" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <Spinner
-                    android:id="@+id/categorias"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:entries="@array/categorie_array"
-                    android:prompt="@string/categorie_prompt"
-                    android:theme="?attr/spinnerDropDownItemStyle" />
-
-                <Button
-                    android:enabled="false"
-                    android:clickable="true"
-                    android:id="@+id/btnCadastroLivro"
-                    android:layout_marginTop="16dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="cadastrar" />
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
 
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/nomeLivro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/nome_do_livro">
 
-            </LinearLayout>
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true" />
 
-        </android.support.v7.widget.CardView>
+                    </android.support.design.widget.TextInputLayout>
 
-    </FrameLayout>
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/editoraLivro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/editora">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/anoLivro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/ano">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="datetime" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/totalPaginasLivro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/total_de_p_ginas">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <Spinner
+                        android:id="@+id/categorias"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/categorie_array"
+                        android:prompt="@string/categorie_prompt"
+                        android:theme="?attr/spinnerDropDownItemStyle" />
+
+                    <Button
+                        android:id="@+id/btnCadastroLivro"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="16dp"
+                        android:clickable="true"
+                        android:enabled="false"
+                        android:text="@string/cadastrar" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </ScrollView>
+
+
+
+    </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="72dp"

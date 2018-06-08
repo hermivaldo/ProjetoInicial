@@ -2,7 +2,7 @@ package com.example.hermivaldo.projetoinicial
 
 import android.os.Bundle
 import com.example.hermivaldo.projetoinicial.fragments.*
-import com.example.hermivaldo.projetoinicial.services.BookUtil
+import com.example.hermivaldo.projetoinicial.services.DAOUtil
 import kotlinx.android.synthetic.main.activity_painel.*
 
 
@@ -18,9 +18,10 @@ class Painel : CFManager() {
         setContentView(R.layout.activity_painel)
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         mThread.start()
-        bookUtil = BookUtil(applicationContext, mThread)
+        DAOUtil = DAOUtil(applicationContext, mThread)
         super.inicializaFragments()
         changeFragment(this.listFragment)
 
     }
+
 }

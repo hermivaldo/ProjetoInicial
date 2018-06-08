@@ -10,18 +10,16 @@ import android.view.ViewGroup
 
 import com.example.hermivaldo.projetoinicial.R
 import com.example.hermivaldo.projetoinicial.entity.Book
-import com.example.hermivaldo.projetoinicial.services.BookUtil
+import com.example.hermivaldo.projetoinicial.services.DAOUtil
 import android.provider.MediaStore
 import android.content.Intent
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.TextInputLayout
 import android.support.v4.content.FileProvider
-import android.util.Log
 import android.widget.*
 import com.example.hermivaldo.projetoinicial.rules.Rules
 import com.example.hermivaldo.projetoinicial.util.ImageConversor
 import io.reactivex.Observable
-import org.w3c.dom.Text
 import ru.whalemare.rxvalidator.RxCombineValidator
 import ru.whalemare.rxvalidator.RxValidator
 import java.io.File
@@ -29,7 +27,7 @@ import java.io.File
 
 class CadastroLivroFragment : Fragment(){
 
-    lateinit var bookUtil: BookUtil
+    lateinit var DAOUtil: DAOUtil
     val REQUEST_TAKE_PHOTO = 1
     var photoFile: File? = null
     var changeFor:ListFragment? = null
@@ -68,8 +66,8 @@ class CadastroLivroFragment : Fragment(){
     }
 
     // método responsável por carregar a thread e o fragment de retorno
-    fun loadThread(bookUtil: BookUtil, fragment: ListFragment){
-        this.bookUtil = bookUtil
+    fun loadThread(DAOUtil: DAOUtil, fragment: ListFragment){
+        this.DAOUtil = DAOUtil
         this.changeFor = fragment
 
     }
@@ -113,6 +111,7 @@ class CadastroLivroFragment : Fragment(){
 
         if (this.mybook != null){
             book._id = mybook!!._id
+            book.image = mybook!!.image
         }
 
         book.name = getStringForView(R.id.nomeLivro)
@@ -121,9 +120,9 @@ class CadastroLivroFragment : Fragment(){
         book.year = getStringForView(R.id.anoLivro)
         book.editora = getStringForView(R.id.editoraLivro)
 
-        if (photoFile == null){
+        if (photoFile == null && book.image == ""){
             book.image = ""
-        }else {
+        }else if (photoFile != null) {
             book.image = photoFile!!.absolutePath
         }
 
@@ -145,22 +144,22 @@ class CadastroLivroFragment : Fragment(){
         var inputTotal = view?.findViewById<TextInputLayout>(R.id.totalPaginasLivro)
 
         var inputNameObservale: Observable<Boolean> = RxValidator(inputName).apply {
-            add(Rules.NotNUll())
+            add(Rules.NotEmpty(this@CadastroLivroFragment.context!!))
         }.asObservable()
 
         var inputEditoraObservable : Observable<Boolean> = RxValidator(inputEditora).apply {
-            add(Rules.NotNUll())
-            add(Rules.MinLength(4))
+            add(Rules.NotEmpty(this@CadastroLivroFragment.context!!))
+            add(Rules.MinLength(4, this@CadastroLivroFragment.context!!))
         }.asObservable()
 
         var inputAnoObservable : Observable<Boolean> = RxValidator(inputAno).apply {
-            add(Rules.NotNUll())
-            add(Rules.MinLength(4))
+            add(Rules.NotEmpty(this@CadastroLivroFragment.context!!))
+            add(Rules.MinLength(4, this@CadastroLivroFragment.context!!))
         }.asObservable()
 
         var inputTotalObservable: Observable<Boolean> = RxValidator(inputTotal).apply {
-            add(Rules.NotNUll())
-            add(Rules.MinLength(2))
+            add(Rules.NotEmpty(this@CadastroLivroFragment.context!!))
+            add(Rules.MinLength(2, this@CadastroLivroFragment.context!!))
         }.asObservable()
 
         RxCombineValidator(inputNameObservale, inputEditoraObservable, inputAnoObservable,
@@ -177,13 +176,14 @@ class CadastroLivroFragment : Fragment(){
             val transaction = fragmentManager?.beginTransaction()
             //transaction?.hide(this) não pode utilizar hide, pois depois precisamos dar um show novamente
             transaction?.replace(R.id.mainFragm, it)
+            transaction?.addToBackStack(null)
             transaction?.commit()
         }
 
     }
 
     private fun cadastro(view: View){
-        bookUtil.insertBook(getBook()) // usar um transformador para chamar o change apenas finalizado o insert book
+        DAOUtil.insertBook(getBook()) // usar um transformador para chamar o change apenas finalizado o insert book
         changeFragment()
     }
 

@@ -4,12 +4,22 @@ import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import java.util.*
 
 @Entity(tableName = "book")
-data class Book (@PrimaryKey(autoGenerate = true)
-                 var _id: Int, var name: String, var type: Int,
-                 var size: Int, var year: String, var image: String, var editora: String) : Parcelable{
+class Book (
+        @PrimaryKey(autoGenerate = true) @SerializedName("sku")
+        var _id: Int,
+        var name: String,
+        var type: Int,
+        @SerializedName("attributes/s645/value")
+        var size: Int,
+        var year: String,
+        var image: String,
+        @SerializedName("brand")
+        var editora: String,
+        var description: String) : Parcelable{
 
     constructor(parcel: Parcel) : this(
             parcel.readInt(),
@@ -18,10 +28,11 @@ data class Book (@PrimaryKey(autoGenerate = true)
             parcel.readInt(),
             parcel.readString(),
             parcel.readString(),
+            parcel.readString(),
             parcel.readString()) {
     }
 
-    constructor():this(0,"",0,0, "", "", "")
+    constructor():this(0,"",0,0, "", "", "", "")
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(_id)
@@ -31,6 +42,7 @@ data class Book (@PrimaryKey(autoGenerate = true)
         parcel.writeString(year)
         parcel.writeString(image)
         parcel.writeString(editora)
+        parcel.writeString(description)
     }
 
     override fun describeContents(): Int {

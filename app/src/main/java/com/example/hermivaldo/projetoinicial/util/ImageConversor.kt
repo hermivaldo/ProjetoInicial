@@ -4,11 +4,16 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.BitmapFactory.decodeResource
+import android.graphics.drawable.BitmapDrawable
 import android.os.Environment
 import java.io.File
 import java.io.IOException
 import android.widget.ImageView
 import com.example.hermivaldo.projetoinicial.R
+import android.graphics.drawable.VectorDrawable
+import android.os.Build
+
+
 
 
 class ImageConversor {
@@ -31,19 +36,28 @@ class ImageConversor {
         var bitmap: Bitmap?
 
         if (resource == null){
-            bitmap = decodeResource(context.resources, R.drawable.reading)
+            bitmap = decodeResource(context.resources, R.drawable.book)
+            mImageView.setImageBitmap(bitmap)
         }else {
-            bitmap = decodeResource(context.resources, resource!!)
+            var drawable = context.resources.getDrawable(resource!!)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                val vectorDrawable = drawable as VectorDrawable
+                mImageView.setImageDrawable(vectorDrawable)
+            } else {
+                val bitmapDrawable = drawable as BitmapDrawable
+                mImageView.setImageBitmap(bitmapDrawable.bitmap)
+            }
+
         }
 
-        mImageView.setImageBitmap(bitmap)
+
     }
 
     fun setPic(mImageView: ImageView, mCurrentPhotoPath: String) {
         // tamanho fixo pois quando vem uma imageView dentro de um list, mesmo com tamanho fixo
         // está chegando zerada para o objeto fazendo uma divisão por 0 e dndo erro
-        var targetW = 72
-        var targetH = 72
+        var targetW = 400
+        var targetH = 400
 
         if (mImageView.width != 0){
             targetW = mImageView.width

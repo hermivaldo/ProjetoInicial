@@ -40,7 +40,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
 
             val minhaLocalizacao = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiCliente)
             if (minhaLocalizacao != null) {
-                adicionarMarcador(minhaLocalizacao.latitude, minhaLocalizacao.longitude, "Não sou Shakira, mas estou aqui")
+                adicionarMarcador(minhaLocalizacao.latitude, minhaLocalizacao.longitude, "Devo estar por aqui...")
 
             }
         }catch (e: Exception) {
@@ -55,7 +55,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
         mMap.addMarker(MarkerOptions()
                 .position(sydney)
                 .title(descrition)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_facebook)))
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.placeholder)))
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15F))
     }
@@ -156,8 +156,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
         }
 
     }
-
-
 
     fun requestPermission() {
         ActivityCompat.requestPermissions(requireActivity(),

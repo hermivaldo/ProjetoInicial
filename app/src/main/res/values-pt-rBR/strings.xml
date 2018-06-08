@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Minha Livraria</string>
+    <string name="title_activity_painel">Painel</string>
+    <string name="title_notifications">Notificações</string>
+    <string name="home_title">NOVIDADES</string>
+    <string name="title_activity_maps">Mapa</string>
+    <string name="categorie_prompt">Escolha uma categoria</string>
+    <string name="account_login">Login</string>
+    <string name="user_name">Usuário</string>
+    <string name="password">Senha</string>
+    <string name="repassword">Repetir Senha</string>
+    <string name="permanecer_logado">Permanecer logado?</string>
+    <string name="sign_in">Entrar</string>
+    <string name="cadastrar">cadastrar</string>
+    <string name="total_de_p_ginas">Total de páginas</string>
+    <string name="editora">Editora</string>
+    <string name="nome_do_livro">Nome do livro</string>
+    <string name="ano">Ano</string>
+
+    <string name="settings">Configurções</string>
+    <string name="allert_setting">Deseja ser alertado por livrarias próximas?</string>
+    <string name="exit_setting">Sair</string>
+
+
+    <string name="empty_rule">O Campo não pode ser vazio.</string>
+    <string name="minlength_rule">Tamanho mínimo é: (%1$d).</string>
+
+
+    <string name="alert_title">Alerta</string>
+    <string name="alert_info">Deseja deletar esse livro?</string>
+    <string name="alert_deny">Não</string>
+    <string name="alert_accept">Sim</string>
+    <string name="create_account">Criar conta</string>
+    <string name="cancel">Cancelar</string>
+
+    <string-array name="categorie_array">
+        <item>Lendo</item>
+        <item>Finalizado</item>
+        <item>Quero ler</item>
+    </string-array>
+</resources>

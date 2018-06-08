@@ -1,21 +1,52 @@
 <resources>
-    <string name="app_name">ProjetoInicial</string>
-    <string name="title_activity_painel">Painel</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="app_name">My Library</string>
+    <string name="title_activity_painel">Panel</string>
+    <string name="title_home" translatable="false">Home</string>
+    <string name="title_dashboard" translatable="false">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-    <string name="home_title">NOVIDADES</string>
+    <string name="home_title">News</string>
     <string name="title_activity_maps">Map</string>
+    <string name="user_system" translatable="false">CHAVE_USUARIO</string>
 
-    <string name="categorie_prompt">Escolha uma categoria</string>
+    <!-- TELA DE LOGIN-->
+    <string name="account_login">Account Login</string>
+    <string name="user_name">User Name</string>
+    <string name="password">Password</string>
+    <string name="repassword">Re-Password</string>
+    <string name="permanecer_logado">Remember Me</string>
+    <string name="sign_in">Sign in</string>
+
+
+    <!-- TELA DE CADASTRO/EDIÇÃO -->
+    <string name="cadastrar">ADD</string>
+    <string name="total_de_p_ginas">Size</string>
+    <string name="editora">Publishing Company</string>
+    <string name="nome_do_livro">Name</string>
+    <string name="ano">Year</string>
+
+    <!-- TELA DE CONFIGURAÇÃO-->
+    <string name="settings">Settings</string>
+    <string name="allert_setting">Can we informing the closest library?</string>
+    <string name="exit_setting">Exit</string>
+
+
+    <!-- VALIDAÇÃO DE ERROS-->
+    <string name="empty_rule">Input can\'t be blank.</string>
+    <string name="minlength_rule">Min Length is (%1$d).</string>
+    <string name="pass_rule">Passwords don\'t match.</string>
+
+    <!-- ALERT LIST_VIEW-->
+    <string name="alert_title">Alert</string>
+    <string name="alert_info">Did you want delete this book?</string>
+    <string name="alert_deny">No</string>
+    <string name="alert_accept">Yes</string>
+    <string name="create_account">Create Account</string>
+    <string name="cancel">Cancel</string>
+
 
     <string-array name="categorie_array">
-        <item>Lendo</item>
-        <item>Leitura Finalizada</item>
-        <item>Quero ler</item>
+        <item>Reading</item>
+        <item>Finalized</item>
+        <item>To Read</item>
     </string-array>
 </resources>

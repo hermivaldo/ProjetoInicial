@@ -4,13 +4,13 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import com.example.hermivaldo.projetoinicial.R
-import com.example.hermivaldo.projetoinicial.services.BookUtil
+import com.example.hermivaldo.projetoinicial.services.DAOUtil
 import com.example.hermivaldo.projetoinicial.util.DbWorkThread
 
 open class CFManager : AppCompatActivity() {
 
     var mThread = DbWorkThread("dbWorkerThread")
-    lateinit var bookUtil: BookUtil
+    lateinit var DAOUtil: DAOUtil
 
     var listFragment: ListFragment = ListFragment()
     var cadastroLivroFragment: CadastroLivroFragment = CadastroLivroFragment()
@@ -18,13 +18,14 @@ open class CFManager : AppCompatActivity() {
     var settingsFragment: SettingsFragment = SettingsFragment()
 
     protected fun inicializaFragments(){
-        this.listFragment.loadThread(bookUtil)
-        this.cadastroLivroFragment.loadThread(bookUtil, this.listFragment)
+        this.listFragment.loadThread(DAOUtil)
+        this.cadastroLivroFragment.loadThread(DAOUtil, this.listFragment)
 
     }
 
     fun changeFragment(fragment: Fragment){
         var transition = supportFragmentManager.beginTransaction()
+        transition.addToBackStack(null)
         transition.replace(R.id.mainFragm, fragment)
         transition.commit()
     }

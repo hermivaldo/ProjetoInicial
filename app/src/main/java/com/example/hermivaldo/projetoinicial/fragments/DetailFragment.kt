@@ -12,13 +12,13 @@ import android.widget.TextView
 
 import com.example.hermivaldo.projetoinicial.R
 import com.example.hermivaldo.projetoinicial.entity.Book
-import com.example.hermivaldo.projetoinicial.services.BookUtil
+import com.example.hermivaldo.projetoinicial.services.DAOUtil
 import com.example.hermivaldo.projetoinicial.util.ImageConversor
 
 
 class DetailFragment : Fragment() {
 
-    var bookUtil: BookUtil? = null
+    var DAOUtil: DAOUtil? = null
     var book: Book? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -29,6 +29,11 @@ class DetailFragment : Fragment() {
         this.book = this.arguments?.getParcelable<Book>("book")
 
         view.findViewById<TextView>(R.id.nomeLivroDescrp).text = book?.name
+        view.findViewById<TextView>(R.id.editoraLivroDescrp).text = book?.editora
+        view.findViewById<TextView>(R.id.anoLivroDesc).text = book?.year
+        view.findViewById<TextView>(R.id.totalPagDesc).text = book?.size.toString()
+        view.findViewById<TextView>(R.id.descsku).text = book?.description.toString()
+
         var ivFoto = view.findViewById<ImageView>(R.id.imageDetail)
         if (book?.image == ""){
             conversor.loadImageFromResource(ivFoto, context!!, null)
@@ -43,7 +48,9 @@ class DetailFragment : Fragment() {
             changeFragment()
         }
         when (book?.type) {
-            1 -> conversor.loadImageFromResource(ic_icon, context!!, R.drawable.reading)
+            0 -> conversor.loadImageFromResource(ic_icon, context!!, R.drawable.ic_man_reading)
+            1 -> conversor.loadImageFromResource(ic_icon, context!!, R.drawable.ic_library)
+            2 -> conversor.loadImageFromResource(ic_icon, context!!, R.drawable.ic_open_book)
         }
         return view
     }
@@ -53,16 +60,16 @@ class DetailFragment : Fragment() {
         var detailFragment = CadastroLivroFragment()
         var bundle = Bundle()
         val listFragment = ListFragment()
-        listFragment.loadThread(bookUtil!!)
-        detailFragment.loadThread(bookUtil!!, listFragment)
+        listFragment.loadThread(DAOUtil!!)
+        detailFragment.loadThread(DAOUtil!!, listFragment)
         bundle.putParcelable("book", book)
         detailFragment.arguments = bundle
         transaction?.replace(R.id.mainFragm, detailFragment)
         transaction?.commit()
     }
 
-    fun loadThread(bookUtil: BookUtil){
-        this.bookUtil = bookUtil
+    fun loadThread(DAOUtil: DAOUtil){
+        this.DAOUtil = DAOUtil
     }
 
 

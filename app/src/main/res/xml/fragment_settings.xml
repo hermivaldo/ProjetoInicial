@@ -8,11 +8,17 @@
 
     <android.support.v7.preference.PreferenceCategory
 
-        android:title="Login automático">
+        android:title="@string/settings">
 
         <android.support.v7.preference.CheckBoxPreference
-            android:title="Informar sobre livrarias próximas?" />
+            android:title="@string/allert_setting" />
 
+
+        <Preference
+            android:key="resetLogin"
+            android:title="@string/exit_setting">
+
+        </Preference>
     </android.support.v7.preference.PreferenceCategory>
 
 </android.support.v7.preference.PreferenceScreen>

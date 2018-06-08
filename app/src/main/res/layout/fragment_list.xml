@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,24 +8,28 @@
     android:orientation="vertical"
     tools:context=".fragments.ListFragment">
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/scroll"
-        android:paddingTop="@dimen/picker_top_margin"
+    <SearchView
+        android:focusableInTouchMode="true"
+        android:id="@+id/searchView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="wrap_content"
+        android:contextClickable="true"
+        android:iconifiedByDefault="false"
+        android:inputType="numberDecimal"
+        android:orientation="horizontal"
+        android:queryHint="Buscar por SKU Saraiva" />
 
-        <android.support.v7.widget.RecyclerView
+     <android.support.v7.widget.RecyclerView
+
             android:id="@+id/rvBookList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            android:clipChildren="true"
+            android:clipToPadding="true"
             tools:listitem="@layout/line_book">
 
         </android.support.v7.widget.RecyclerView>
 
-    </android.support.v4.widget.NestedScrollView>
 
-
-
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>
